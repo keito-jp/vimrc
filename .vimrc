@@ -1,114 +1,58 @@
-"------------------NeoBundle ---------------"
-set nocompatible              
-filetype off                  
+set nocompatible
 
 if has('vim_starting')
-   set runtimepath+=~/.vim/bundle/neobundle.vim/
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
-call neobundle#end()
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'tomasr/molokai'
+NeoBundle 'tpope/vim-endwise'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'slim-template/vim-slim'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+call neobundle#end()
 
-"GitHubリポジトリにあるプラグインを利用する場合
-NeoBundle 'tpope/vim-fugitive'
-"GitHub以外のGitリポジトリにあるプラグインを利用する場合
-NeoBundle 'git://git.wincent.com/command-t.git'
-"Git以外のリポジトリにあるプラグインを利用する場合
-NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
-"neomru
-NeoBundle 'Shougo/neomru'
-
-NeoBundle 'git://github.com/Shougo/unite.vim.git'
-
-NeoBundle 'git://github.com/Shougo/vimproc.git'
-
-
-"--------------- キーバインド ---------------"
-
-
-"--------------- ステータスライン ---------------"
-  "ステータスラインを常に表示"
-  set laststatus=2
-  "現在のモードを表示"
-  set showmode
-  "タイプ途中のコマンドを表示"
-  set showcmd
-  "右下に行，列を表示"
-  set ruler
-
-
-"--------------- encoding ---------------"
-  set termencoding=utf-8
-  set encoding=utf-8
-  set fileformats=unix,dos,mac
-  set fileencoding=utf-8
-  set fileencodings=utf-8,shift-jis
-
-
-"--------------- color ---------------"
+filetype plugin indent on
 syntax on
+
+colorscheme molokai
+
+set hlsearch
+set ignorecase
+set smartcase
+set noincsearch
 set cursorline
-highlight Normal ctermbg=black ctermfg=grey
-highlight StatusLine term=none cterm=none ctermfg=black ctermbg=grey
-highlight CursorLine term=none cterm=none ctermfg=none ctermbg=darkgray
+set title
+set showmatch
 
-"--------------- other ---------------"
-  "TABの幅を指定"
-  set expandtab
-  set tabstop=2
-  set softtabstop=2
-  set shiftwidth=2
-  set shiftround
+set tabstop=2
+set autoindent
+set expandtab
+set shiftwidth=2
+set softtabstop=0
+set smarttab
 
-  "モードライン無効"
-  set modelines=0
+set list
+set listchars=tab:>-,trail:-
 
-  "自動でインデント"
-  set autoindent
+set ruler
+set number
 
-  "行数を表示"
-  set number
+set cindent
+set showcmd
+set nobackup
 
-  "viとの互換なし"
-  set nocompatible
+set clipboard=unnamed,autoselect
 
-  "タイトルをウィンドウ枠に表示" 
-  set title
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_guide_size = 1
+hi IndentGuidesOdd  guibg=black   ctermbg=234
+hi IndentGuidesEven guibg=gray ctermbg=239
 
-  "検索文字を打ち込むと即検索"
-  set incsearch
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
-  "バックスペースで改行とかも消せる"
-  set backspace=indent,eol,start
-
-  "バックアップファイルをとらない"
-  set nobackup
-
-  "スワップつくらない"
-  set noswapfile
-
-  "コマンドラインの履歴"
-  set history=500
-
-  "バッファを保存しなくても他のバッファを表示可能に"
-  set hidden
-
-  "viminfoファイルの設定"
-  set viminfo=!,'50,<1000,s100,\"50"
-
-  "対応する括弧を表示"
-  set showmatch
-
-  "補完候補を表示"
-  set wildmenu
-
-  "スクロール時の余白確保"
-  set scrolloff=7
-
-  "検索結果をハイライト"
-  set hlsearch
-
-  "カーソルの下の単語を検索
-  vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v, '\/'), "\n", '\\n', 'g')<CR><CR>
-
-
+imap { {}<LEFT>
+imap [ []<LEFT>
+imap ( ()<LEFT>
