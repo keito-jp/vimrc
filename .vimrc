@@ -4,13 +4,57 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 call neobundle#begin(expand('~/.vim/bundle/'))
-NeoBundle 'Shougo/unite.vim'
 NeoBundle 'tomasr/molokai'
-NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'slim-template/vim-slim'
-NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'Shougo/vimproc.vim', {
+      \'build' : {
+      \    'windows' : 'tools\\update-dll-mingw',
+      \    'cygwin' : 'make -f make_cygwin.mak',
+      \    'mac' : 'make',
+      \    'linux' : 'make',
+      \    'unix' : 'gmake',
+      \   },
+      \}
+NeoBundleLazy 'Shougo/unite.vim', {
+      \  'autoload' : {
+      \    'commands' : [ 'Unite' ]
+      \  }
+      \}
+NeoBundleLazy 'tpope/vim-endwise', {
+      \  'autoload' : {
+      \    'insert' : 1
+      \  }
+      \}
+NeoBundleLazy 'slim-template/vim-slim', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'slim' ]
+      \  }
+      \}
+NeoBundleLazy 'scrooloose/nerdtree', {
+      \  'autoload' : {
+      \    'commands' : [ 'NERDTreeToggle' ]
+      \  }
+      \}
+NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
+if neobundle#tap('jazzradio.vim')
+  call neobundle#config({
+      \  'autoload' : {
+      \    'unite_sources' : [
+      \      'jazzradio'
+      \    ],
+      \    'commands' : [
+      \      'JazzradioUpdateChannels',
+      \      'JazzradioStop',
+      \      {
+      \        'name' : 'JazzradioPlay',
+      \        'complete' : 'customlist,jazzradio#channel_key_complete'
+      \      }
+      \    ],
+      \    'function_prefix' : 'jazzradio'
+      \  }
+      \})
+endif
 call neobundle#end()
 
 filetype plugin indent on
