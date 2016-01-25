@@ -5,7 +5,7 @@ if has('vim_starting')
 endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundle 'tomasr/molokai'
-NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'tyru/caw.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'Shougo/vimproc.vim', {
       \'build' : {
@@ -29,6 +29,21 @@ NeoBundleLazy 'tpope/vim-endwise', {
 NeoBundleLazy 'slim-template/vim-slim', {
       \  'autoload' : {
       \    'filetypes' : [ 'slim' ]
+      \  }
+      \}
+NeoBundleLazy 'vim-scripts/nginx.vim', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'nginx' ]
+      \  }
+      \}
+NeoBundleLazy 'kchmck/vim-coffee-script', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'coffee' ]
+      \  }
+      \}
+NeoBundleLazy 'groenewege/vim-less', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'less' ]
       \  }
       \}
 NeoBundleLazy 'scrooloose/nerdtree', {
@@ -100,3 +115,8 @@ nnoremap <silent><C-e> :NERDTreeToggle<CR>
 imap { {}<LEFT>
 imap [ []<LEFT>
 imap ( ()<LEFT>
+
+nmap <Leader>c <Plug>(caw:i:toggle)
+vmap <Leader>c <Plug>(caw:i:toggle)
+
+au BufRead,BufNewFile */nginx/*.conf set ft=nginx
