@@ -7,6 +7,8 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundle 'tomasr/molokai'
 NeoBundle 'tyru/caw.vim'
 NeoBundle 'Yggdroot/indentLine'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'Shougo/vimproc.vim', {
       \'build' : {
       \    'windows' : 'tools\\update-dll-mingw',
@@ -16,7 +18,6 @@ NeoBundle 'Shougo/vimproc.vim', {
       \    'unix' : 'gmake',
       \   },
       \}
-NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 NeoBundleLazy 'Shougo/unite.vim', {
       \  'autoload' : {
       \    'commands' : [ 'Unite' ]
@@ -100,10 +101,73 @@ set cindent
 set showcmd
 set nobackup
 set clipboard=unnamed,autoselect
-" For Powerline
+
+" For Statusline
 set laststatus=2
 set showtabline=2
 set noshowmode
+
+" Lightline.vim
+let g:lightline = {
+      \ 'mode_map': { 'c': 'NORMAL' },
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'modified': 'LightLineModified',
+      \   'readonly': 'LightLineReadonly',
+      \   'fugitive': 'LightLineFugitive',
+      \   'filename': 'LightLineFilename',
+      \   'fileformat': 'LightLineFileformat',
+      \   'filetype': 'LightLineFiletype',
+      \   'fileencoding': 'LightLineFileencoding',
+      \   'mode': 'LightLineMode',
+      \ },
+      \ 'separator': { 'left': '⮀', 'right': '⮂' },
+      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+      \ }
+
+function! LightLineModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! LightLineReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+endfunction
+
+function! LightLineFilename()
+  return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+endfunction
+
+function! LightLineFugitive()
+  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+    let _ = fugitive#head()
+    return strlen(_) ? '⭠ '._ : ''
+  endif
+  return ''
+endfunction
+
+function! LightLineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightLineFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightLineFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! LightLineMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
 
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
