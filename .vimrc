@@ -6,7 +6,7 @@ endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundle 'tomasr/molokai'
 NeoBundle 'tyru/caw.vim'
-NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'Shougo/vimproc.vim', {
       \'build' : {
       \    'windows' : 'tools\\update-dll-mingw',
@@ -16,6 +16,7 @@ NeoBundle 'Shougo/vimproc.vim', {
       \    'unix' : 'gmake',
       \   },
       \}
+NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 NeoBundleLazy 'Shougo/unite.vim', {
       \  'autoload' : {
       \    'commands' : [ 'Unite' ]
@@ -76,6 +77,7 @@ filetype plugin indent on
 syntax on
 
 colorscheme molokai
+:hi Directory guifg=cyan ctermfg=cyan
 
 set hlsearch
 set ignorecase
@@ -84,31 +86,24 @@ set noincsearch
 set cursorline
 set title
 set showmatch
-
 set tabstop=2
 set autoindent
 set expandtab
 set shiftwidth=2
 set softtabstop=0
 set smarttab
-
 set list
 set listchars=tab:>-,trail:-
-
 set ruler
 set number
-
 set cindent
 set showcmd
 set nobackup
-
 set clipboard=unnamed,autoselect
-
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_guide_size = 1
-hi IndentGuidesOdd  guibg=black   ctermbg=234
-hi IndentGuidesEven guibg=gray ctermbg=239
+" For Powerline
+set laststatus=2
+set showtabline=2
+set noshowmode
 
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
