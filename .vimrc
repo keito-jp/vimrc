@@ -4,7 +4,7 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 call neobundle#begin(expand('~/.vim/bundle/'))
-NeoBundle 'tomasr/molokai'
+NeoBundle 'gosukiwi/vim-atom-dark'
 NeoBundle 'tyru/caw.vim'
 NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'tpope/vim-fugitive'
@@ -48,9 +48,34 @@ NeoBundleLazy 'groenewege/vim-less', {
       \    'filetypes' : [ 'less' ]
       \  }
       \}
+NeoBundleLazy 'elzr/vim-json', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'json' ]
+      \  }
+      \}
+NeoBundleLazy 'mattn/emmet-vim', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'html' ]
+      \  }
+      \}
+NeoBundleLazy 'leafgarland/typescript-vim', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'TypeScript' ]
+      \  }
+      \}
+NeoBundleLazy 'Quramy/tsuquyomi', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'TypeScript' ]
+      \  }
+      \}
 NeoBundleLazy 'scrooloose/nerdtree', {
       \  'autoload' : {
       \    'commands' : [ 'NERDTreeToggle' ]
+      \  }
+      \}
+NeoBundleLazy 'vim-jp/vim-go-extra', {
+      \  'autoload' : {
+      \    'filetypes' : [ 'go' ]
       \  }
       \}
 NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
@@ -77,7 +102,7 @@ call neobundle#end()
 filetype plugin indent on
 syntax on
 
-colorscheme molokai
+colorscheme atom-dark-256
 :hi Directory guifg=cyan ctermfg=cyan
 
 set hlsearch
@@ -101,11 +126,23 @@ set cindent
 set showcmd
 set nobackup
 set clipboard=unnamed,autoselect
+set visualbell t_vb=
+
+" アンダーラインを引く(color terminal)
+highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 
 " For Statusline
 set laststatus=2
 set showtabline=2
 set noshowmode
+
+silent !mkdir -p ~/.vim/swap > /dev/null 2>&1
+silent !mkdir -p ~/.vim/backup > /dev/null 2>&1
+silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+
+set directory=~/.vim/swap
+set backupdir=~/.vim/backup
+set undodir=~/.vim/undo
 
 " Lightline.vim
 let g:lightline = {
@@ -168,6 +205,7 @@ function! LightLineMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
+let g:vim_json_syntax_conceal = 0
 
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
@@ -179,3 +217,4 @@ nmap <Leader>c <Plug>(caw:i:toggle)
 vmap <Leader>c <Plug>(caw:i:toggle)
 
 au BufRead,BufNewFile */nginx/*.conf set ft=nginx
+au BufRead,BufNewFile *.{ts,tsx} set ft=TypeScript
